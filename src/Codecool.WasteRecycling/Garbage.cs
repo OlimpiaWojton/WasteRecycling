@@ -3,7 +3,7 @@ namespace Codecool.WasteRecycling
     public class Garbage
     {
         public static int totalGarbageCount;
-
+        public int Id { get; set; }
         
         public string Name { get; private set; }
 
@@ -14,11 +14,5 @@ namespace Codecool.WasteRecycling
             totalGarbageCount++;
         }
 
-       
-
-        public void ThrowOutGarbage(Dustbin bin, Garbage garbage)
-        {
-            bin.ListOfHouseWaste.Add(garbage);
-        }
     }
 }

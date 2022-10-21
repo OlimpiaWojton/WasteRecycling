@@ -8,22 +8,28 @@ namespace Codecool.WasteRecycling
         {
             Dustbin bin = CreateABin();
             
-            HouseWaste garbage = new("old meat");
-            bin.ThrowOutGarbage(garbage);
-            PlasticGarbage p = new("dfgjk", false, true);
-            bin.ThrowOutGarbage(p);
-            PlasticGarbage p3 = new("nsfh", true, true);
-            bin.ThrowOutGarbage(p3);
-            PaperGarbage p2 = new("dkfk", true, true);
-            bin.ThrowOutGarbage(p2);
-            PaperGarbage paper = new("bdsbgnsb", true, false);
-            bin.ThrowOutGarbage(paper);
-            PaperGarbage paper2 = new("notebook", false, true);
-            bin.ThrowOutGarbage(paper2);
+            HouseWaste houseWaste = new("old meat");
+            bin.ThrowOutGarbage(houseWaste);
+            HouseWaste houseWaste2 = new("old fish");
+            bin.ThrowOutGarbage(houseWaste2);
+            PlasticGarbage pla1 = new("dfgjk", false, true);
+            bin.ThrowOutGarbage(pla1);
+            PlasticGarbage pla2 = new("nsfh", true, true);
+            bin.ThrowOutGarbage(pla2);
+            PlasticGarbage pla3 = new("plastic", true, false);
+            bin.ThrowOutGarbage(pla3);
+            PaperGarbage pap1 = new("dkfk", true, true);
+            bin.ThrowOutGarbage(pap1);
+            PaperGarbage pap2 = new("bdsbgnsb", true, false);
+            bin.ThrowOutGarbage(pap2);
+            PaperGarbage pap3 = new("notebook", false, true);
+            bin.ThrowOutGarbage(pap3);
 
             bin.PrintTheContent();
             
-           
+            //bin.EmptyTheBin();
+            //bin.PrintTheContent();
+            bin.PrintListOfGarbage(bin.ListOfHouseWaste);
            
         }
 

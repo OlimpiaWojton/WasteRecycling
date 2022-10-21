@@ -5,8 +5,7 @@ namespace Codecool.WasteRecycling
     public class PlasticGarbage : Garbage
     {
         public static int PlasticCount { get; private set; }
-        public int PlasticId { get; private set; }
-
+        
         public bool Cleaned { get; private set; }
         public bool Cleanable { get; private set; }
 
@@ -17,7 +16,7 @@ namespace Codecool.WasteRecycling
             Clean();
 
             PlasticCount++;
-            PlasticId = PlasticCount;
+            Id = PlasticCount;
            
         }
 

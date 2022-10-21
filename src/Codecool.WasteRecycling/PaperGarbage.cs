@@ -5,8 +5,7 @@ namespace Codecool.WasteRecycling
     public class PaperGarbage : Garbage
     {
         public static int PaperCount { get; private set; }
-        public int PaperId { get; private set; }
-
+        
         public bool Squeezed { get; private set; }
         public bool Squeezable { get; private set; }
 
@@ -17,7 +16,7 @@ namespace Codecool.WasteRecycling
             Squeeze();
 
             PaperCount++;
-            PaperId = PaperCount;
+            Id = PaperCount;
             
         }
 

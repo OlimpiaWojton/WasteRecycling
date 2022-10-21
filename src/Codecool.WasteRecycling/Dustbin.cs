@@ -3,18 +3,17 @@ using System.Collections.Generic;
 
 namespace Codecool.WasteRecycling
 {
-    public class Dustbin/*<T> where T : class*/
+    public class Dustbin
     {
         public static int HouseWasteCount { get; private set; }
-       
+
         public static int PlasticCount { get; private set; }
-       
+
         public static int PaperCount { get; private set; }
-        
 
 
         public string ColorOfBin { get; private set; }
-        public List<Garbage> ListOfHouseWaste { get; private set; } 
+        public List<Garbage> ListOfHouseWaste { get; private set; }
         public List<Garbage> ListOfPlasticGarbage { get; private set; }
         public List<Garbage> ListOfPaperGarbage { get; private set; }
 
@@ -36,8 +35,8 @@ namespace Codecool.WasteRecycling
             }
             else if (garbage is PlasticGarbage)
             {
-                PlasticGarbage temp = garbage as PlasticGarbage;
-                if (temp.Cleaned == true)
+                PlasticGarbage plastic = garbage as PlasticGarbage;
+                if (plastic.Cleaned == true)
                 {
                     ListOfPlasticGarbage.Add(garbage);
                     PlasticCount++;
@@ -45,8 +44,8 @@ namespace Codecool.WasteRecycling
             }
             else if (garbage is PaperGarbage)
             {
-                PaperGarbage temp = garbage as PaperGarbage;
-                if (temp.Squeezed == true)
+                PaperGarbage paper = garbage as PaperGarbage;
+                if (paper.Squeezed == true)
                 {
                     ListOfPaperGarbage.Add(garbage);
                     PaperCount++;
@@ -56,51 +55,78 @@ namespace Codecool.WasteRecycling
 
         public void PrintTheContent()
         {
-            Console.WriteLine($"{ColorOfBin} Dustbin !");
-            Console.WriteLine($"Housewast content: {ListOfHouseWaste.Count} item(s)");
-            foreach (Garbage garbage in ListOfHouseWaste)
-            {
-                if (garbage is HouseWaste)
-                {
-                    HouseWaste temp = garbage as HouseWaste;
-                    Console.WriteLine($"\t{garbage.Name} nr.{temp.HouseWasteId}");
-                }
-            }
-           
-            Console.WriteLine($"Plastic content: {ListOfPlasticGarbage.Count} item(s)");
-            foreach (Garbage garbage in ListOfPlasticGarbage)
-            {
-                if (garbage is PlasticGarbage)
-                {
-                    PlasticGarbage temp = garbage as PlasticGarbage;
-                    Console.WriteLine($"\t{garbage.Name} nr.{temp.PlasticId}");
-                }
-            }
-           
-            Console.WriteLine($"Paper content: {ListOfPaperGarbage.Count} item(s)");
-            foreach (Garbage garbage in ListOfPaperGarbage)
-            {
-                if (garbage is PaperGarbage)
-                {
-                    PaperGarbage temp = garbage as PaperGarbage;
-                    Console.WriteLine($"\t{garbage.Name} nr.{temp.PaperId}");
-                }
-                
-            }
+            Console.WriteLine($"{ColorOfBin} Dustbin !\n");
+       
+            WriteOutContent<HouseWaste>(ListOfHouseWaste, "Housewaste", HouseWasteCount);
+            WriteOutContent<PlasticGarbage>(ListOfPlasticGarbage, "Plastic", PlasticCount);
+            WriteOutContent<PaperGarbage>(ListOfPaperGarbage, "Paper", PaperCount);
+
             Console.WriteLine($"All content: {AddGarbage()} item(s)");
         }
 
+        public void WriteOutContent<T>(List<Garbage> garbages, string typeOfGarbage, int count)
+        {
+            Console.WriteLine($"{typeOfGarbage} content: {count} item(s)");
+            foreach (Garbage garbage in garbages)
+            {
+                if (garbage is T)
+                {
+                    Console.WriteLine($"\t{garbage.Name} nr.{garbage.Id}");
+                }
+
+            }
+        }
         public int AddGarbage()
         {
             int totalCount = ListOfHouseWaste.Count + ListOfPlasticGarbage.Count + ListOfPaperGarbage.Count;
             return totalCount;
         }
+
+        public void EmptyTheBin()
+        {
+            ListOfHouseWaste.Clear();
+            ListOfPlasticGarbage.Clear();
+            ListOfPaperGarbage.Clear();
+        }
+
+        public void PrintListOfGarbage(List<Garbage> garbages)
+        {
+            for (int i = 0; i < garbages.Count; i++)
+            {
+                Console.WriteLine(garbages[i].Name + " " + garbages[i].Id + " " + (i + 1));
+            }
+        }
+
         public void PrintTheContent2()
         {
-            Console.WriteLine($"Housewast content: {HouseWaste.HouseWasteCount} item(s)");
-            Console.WriteLine($"Plastic content: {PlasticGarbage.PlasticCount} item(s)");
-            Console.WriteLine($"Paper content: {PaperGarbage.PaperCount} item(s)");
-            Console.WriteLine($"All content: {Garbage.totalGarbageCount} item(s)");
+            Console.WriteLine($"{ColorOfBin} Dustbin !\n");
+            Console.WriteLine($"Housewaste content: {ListOfHouseWaste.Count} item(s)");
+            foreach (Garbage garbage in ListOfHouseWaste)
+            {
+                if (garbage is HouseWaste)
+                {
+                    Console.WriteLine($"\t{garbage.Name} nr.{garbage.Id}");
+                }
+            }
+
+            Console.WriteLine($"Plastic content: {ListOfPlasticGarbage.Count} item(s)");
+            foreach (Garbage garbage in ListOfPlasticGarbage)
+            {
+                if (garbage is PlasticGarbage)
+                {
+                    Console.WriteLine($"\t{garbage.Name} nr.{garbage.Id}");
+                }
+            }
+            Console.WriteLine($"Paper content: {ListOfPaperGarbage.Count} item(s)");
+            foreach (Garbage garbage in ListOfPaperGarbage)
+            {
+                if (garbage is PaperGarbage)
+                {
+                    
+                    Console.WriteLine($"\t{garbage.Name} nr.{garbage.Id}");
+                }
+            }
+            Console.WriteLine($"All content: {AddGarbage()} item(s)");
         }
     }
 }
