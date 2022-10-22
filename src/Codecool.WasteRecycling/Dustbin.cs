@@ -28,28 +28,45 @@ namespace Codecool.WasteRecycling
 
         public void ThrowOutGarbage(Garbage garbage)
         {
-            if (garbage is HouseWaste)
+            try
             {
-                ListOfHouseWaste.Add(garbage);
-                HouseWasteCount++;
-            }
-            else if (garbage is PlasticGarbage)
-            {
-                PlasticGarbage plastic = garbage as PlasticGarbage;
-                if (plastic.Cleaned == true)
+                if (garbage is HouseWaste)
                 {
-                    ListOfPlasticGarbage.Add(garbage);
-                    PlasticCount++;
+                    ListOfHouseWaste.Add(garbage);
+                    HouseWasteCount++;
+                }
+                else if (garbage is PlasticGarbage)
+                {
+
+                    PlasticGarbage plastic = garbage as PlasticGarbage;
+                    if (plastic.Cleaned == true)
+                    {
+                        ListOfPlasticGarbage.Add(garbage);
+                        PlasticCount++;
+                    }
+                    else
+                    {
+                        throw new DustbinContentException(garbage.Name);
+                    }
+                }
+                else if (garbage is PaperGarbage)
+                {
+                    PaperGarbage paper = garbage as PaperGarbage;
+                    if (paper.Squeezed == true)
+                    {
+                        ListOfPaperGarbage.Add(garbage);
+                        PaperCount++;
+                    }
+                    else
+                    {
+                        throw new DustbinContentException(garbage.Name);
+                    }
                 }
             }
-            else if (garbage is PaperGarbage)
+            catch (DustbinContentException exception)
             {
-                PaperGarbage paper = garbage as PaperGarbage;
-                if (paper.Squeezed == true)
-                {
-                    ListOfPaperGarbage.Add(garbage);
-                    PaperCount++;
-                }
+                DustbinContentException.GarbagesExeptionsList.Add(garbage);
+                Console.WriteLine(exception.Message);
             }
         }
 
@@ -88,6 +105,10 @@ namespace Codecool.WasteRecycling
             ListOfPlasticGarbage.Clear();
             ListOfPaperGarbage.Clear();
         }
+
+
+        
+
 
         public void PrintListOfGarbage(List<Garbage> garbages)
         {

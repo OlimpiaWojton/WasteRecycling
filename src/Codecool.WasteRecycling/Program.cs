@@ -18,18 +18,23 @@ namespace Codecool.WasteRecycling
             bin.ThrowOutGarbage(pla2);
             PlasticGarbage pla3 = new("plastic", true, false);
             bin.ThrowOutGarbage(pla3);
+            PlasticGarbage pla4 = new("bottle", false, false);
+            bin.ThrowOutGarbage(pla4);
             PaperGarbage pap1 = new("dkfk", true, true);
             bin.ThrowOutGarbage(pap1);
             PaperGarbage pap2 = new("bdsbgnsb", true, false);
             bin.ThrowOutGarbage(pap2);
             PaperGarbage pap3 = new("notebook", false, true);
             bin.ThrowOutGarbage(pap3);
+            PaperGarbage pap4 = new("box", false, false);
+            bin.ThrowOutGarbage(pap4);
 
             bin.PrintTheContent();
+            DustbinContentException.PrintListOfGarbageException();
             
             //bin.EmptyTheBin();
             //bin.PrintTheContent();
-            bin.PrintListOfGarbage(bin.ListOfHouseWaste);
+            //bin.PrintListOfGarbage(bin.ListOfHouseWaste);
            
         }
 
