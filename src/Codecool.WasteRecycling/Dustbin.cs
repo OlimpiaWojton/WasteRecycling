@@ -104,6 +104,9 @@ namespace Codecool.WasteRecycling
             ListOfHouseWaste.Clear();
             ListOfPlasticGarbage.Clear();
             ListOfPaperGarbage.Clear();
+            HouseWasteCount = 0;
+            PlasticCount = 0;
+            PaperCount = 0;
         }
 
 
