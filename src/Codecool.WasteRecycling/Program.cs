@@ -1,3 +1,4 @@
+using Codecool.WasteRecycling.Enum;
 using System;
 
 namespace Codecool.WasteRecycling
@@ -31,11 +32,12 @@ namespace Codecool.WasteRecycling
 
             bin.PrintTheContent();
             DustbinContentException.PrintListOfGarbageException();
-            
+
             //bin.EmptyTheBin();
             //bin.PrintTheContent();
             //bin.PrintListOfGarbage(bin.ListOfHouseWaste);
-           
+            PrintStartingMenu();
+            ReadAndValidateType();
         }
 
         public static Dustbin CreateABin()
@@ -45,6 +47,111 @@ namespace Codecool.WasteRecycling
             return new Dustbin(name);
         }
 
+        public static void PrintStartingMenu()
+        {
+            Console.WriteLine("Welcome to the recycling dustbin\n");
+            Console.WriteLine("What type of garbage do you want to throw?\n");
+            Console.WriteLine("Housewaste press => 1");
+            Console.WriteLine("Plastic press => 2");
+            Console.WriteLine("Paper press => 3");
+        }
+
+        public static string ReadAndValidateType()
+        {
+            string type = Console.ReadLine();
+            while (type != "1" && type != "2" && type != "3")
+            {
+                Console.WriteLine("Invalid input, try again!");
+                type = Console.ReadLine();
+            }
+            return type;
+        }
+        public static void CreateAGarbage()
+        {
+            string type = ReadAndValidateType();
+            TypeOfGarbage typeOfGarbage;
+            typeOfGarbage = StringToTypeOfGarbageConverter.Convert(type);
+            Console.WriteLine("Put the name of garbage");
+            string name = Console.ReadLine();
+            switch (typeOfGarbage)
+            {
+                case TypeOfGarbage.HouseWaste:
+                    CreateHouseWaste(name);
+                    break;
+                case TypeOfGarbage.PlasticGarbage:
+                    CreatePlasticGarbage(name);
+                    break;
+                case TypeOfGarbage.PaperGarbage:
+                    break;
+                //case TypeOfGarbage.UnknownGarbage:
+                //    break;
+            }
+            switch (type)
+            {
+                case "1":
+                    {
+                        CreateHouseWaste(name);
+                        break;
+                    }
+                case "2":
+                    {
+                        CreatePlasticGarbage(name);
+                        break;
+                    }
+                case "3":
+                    {
+                        break;
+                    }
+            }
+        }
+
+        public static HouseWaste CreateHouseWaste(string name)
+        {
+            
+            return new HouseWaste(name);
+        }
+
+        public static PlasticGarbage CreatePlasticGarbage(string name)
+        {
+            (bool cleaned, bool cleanable) clean = AskAboutCleaningSqueezingOptions(TypeOfGarbage.PlasticGarbage);
+            //var clean = AskAboutCleaningOptions();
+          
+            return new PlasticGarbage(name, clean.cleaned, clean.cleanable);
+        }
+
+        public static (bool, bool) AskAboutCleaningSqueezingOptions(TypeOfGarbage type)
+        {
+            bool cleaned;
+            
+            Console.WriteLine("Is the plastic garbage clean? Put Y for yes and N for no");
+            string clean = Console.ReadLine();
+            if (clean == "Y".ToUpper())
+            {
+                cleaned = true;
+            }
+            else
+            {
+                cleaned = false;
+            }
+            
+            bool cleanabled;
+            Console.WriteLine("Is the plastic garbage cleanable? Put Y for yes and N for no");
+            string cleanable = Console.ReadLine(); 
+            if (cleanable == "Y".ToUpper())
+            {
+                cleanabled = true;
+            }
+            else
+            {
+                cleanabled = false;
+            }
+            return (cleaned, cleanabled);
+        }
+
+        public static PaperGarbage CreatePaperGarbage(string name)
+        {
+            return new PaperGarbage();
+        }
 
     }
 }
