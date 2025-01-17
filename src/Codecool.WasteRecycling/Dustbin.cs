@@ -90,9 +90,9 @@ namespace Codecool.WasteRecycling
                 {
                     Console.WriteLine($"\t{garbage.Name} nr.{garbage.Id}");
                 }
-
             }
         }
+
         public int AddGarbage()
         {
             int totalCount = ListOfHouseWaste.Count + ListOfPlasticGarbage.Count + ListOfPaperGarbage.Count;

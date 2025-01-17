@@ -1,5 +1,6 @@
 using Codecool.WasteRecycling.Enum;
 using System;
+using System.Linq;
 using System.Threading;
 
 namespace Codecool.WasteRecycling
@@ -45,17 +46,15 @@ namespace Codecool.WasteRecycling
             {
                 Console.Clear();
                 Dustbin dustbin = CreateABin();
-                SleepAndClear();
+                SleepAndClear(1000);
                 PrintStartingMenu(dustbin);
                 PrintTheDustbinContent(dustbin);
             } while (AskUserToContinue());
 
-
-
         }
         public static bool AskUserToContinue()
         {
-            SleepAndClear();
+            SleepAndClear(3000);
             Console.WriteLine("Do you want to create a new dustbin?");
             Console.WriteLine("For yes press \" Y \" or another button to exit");
             string answear = Console.ReadLine().ToUpper();
@@ -68,9 +67,10 @@ namespace Codecool.WasteRecycling
                 return false;
             }
         }
-        private static void SleepAndClear()
+
+        private static void SleepAndClear(int threadTime)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(threadTime);
             Console.Clear();
         }
 
@@ -87,14 +87,14 @@ namespace Codecool.WasteRecycling
             
             do
             {
-                SleepAndClear();
+                SleepAndClear(1000);
                 Console.WriteLine("What type of garbage do you want to throw?\n");
                 Console.WriteLine("Housewaste press => 1");
                 Console.WriteLine("Plastic press => 2");
                 Console.WriteLine("Paper press => 3\n");
                 CreateAGarbage(bin);
                 
-                SleepAndClear();
+                SleepAndClear(1000);
                 Console.WriteLine("Do you have another garbage to throw? Press \"Y\" for yes or another button for no");
                 string anotherGarbage = Console.ReadLine().ToUpper();
                 if (anotherGarbage != "Y")
@@ -112,15 +112,16 @@ namespace Codecool.WasteRecycling
             {
                 bin.PrintTheContent();
             }
-            Console.WriteLine("\nEmpty the bin press => 2\n");
+            Console.WriteLine();
+            DustbinContentException.PrintListOfGarbageException();
+            Console.WriteLine("\nEmpty the bin press => 2 or another button to continue\n");
             string empty = Console.ReadLine();
+            SleepAndClear(1000);
             if (empty == "2")
             {
                 bin.EmptyTheBin();
                 bin.PrintTheContent();
             }
-            Console.WriteLine();
-            DustbinContentException.PrintListOfGarbageException();
         }
 
         public static string ReadAndValidateType()
@@ -133,12 +134,25 @@ namespace Codecool.WasteRecycling
             }
             return type;
         }
+
+        public static string ReadAndValidateType2()
+        {
+            string[] answers = new[] { "1", "2", "3" };
+            string type = Console.ReadLine();
+            while (!answers.Contains(type))
+            {
+                Console.WriteLine("Invalid input, try again!");
+                type = Console.ReadLine();
+            }
+            return type;
+        }
+
         public static void CreateAGarbage(Dustbin bin)
         {
             string type = ReadAndValidateType();
             TypeOfGarbage typeOfGarbage;
             typeOfGarbage = StringToTypeOfGarbageConverter.Convert(type);
-            Console.WriteLine("Put the name of garbage");
+            Console.WriteLine("Write the name of garbage");
             string name = Console.ReadLine();
             switch (typeOfGarbage)
             {
@@ -175,7 +189,6 @@ namespace Codecool.WasteRecycling
 
         public static HouseWaste CreateHouseWaste(string name)
         {
-            
             return new HouseWaste(name);
         }
 
@@ -185,6 +198,12 @@ namespace Codecool.WasteRecycling
             //var clean = AskAboutCleaningOptions();
           
             return new PlasticGarbage(name, clean.cleaned, clean.cleanable);
+        }
+
+        public static PaperGarbage CreatePaperGarbage(string name)
+        {
+            (bool squeezed, bool squeezable) squeeze = AskAboutCleaningSqueezingOptions(TypeOfGarbage.PaperGarbage);
+            return new PaperGarbage(name, squeeze.squeezed, squeeze.squeezable);
         }
 
         public static (bool, bool) AskAboutCleaningSqueezingOptions(TypeOfGarbage type)
@@ -203,7 +222,7 @@ namespace Codecool.WasteRecycling
             }
 
             bool cleanabledSqueezabled;
-            AskIfCleanalbeOrSqueezable(type);
+            AskIfCleanableOrSqueezable(type);
 
             string cleanableOrSqueezable = Console.ReadLine().ToUpper();
             if (cleanableOrSqueezable == "Y")
@@ -229,7 +248,7 @@ namespace Codecool.WasteRecycling
             }
         }
 
-        private static void AskIfCleanalbeOrSqueezable(TypeOfGarbage type)
+        private static void AskIfCleanableOrSqueezable(TypeOfGarbage type)
         {
             if (type == TypeOfGarbage.PlasticGarbage)
             {
@@ -240,12 +259,5 @@ namespace Codecool.WasteRecycling
                 Console.WriteLine("Is the paper garbage squeezable? Put Y for yes and N for no");
             }
         }
-
-        public static PaperGarbage CreatePaperGarbage(string name)
-        {
-            (bool squeezed, bool squeezable) squeeze = AskAboutCleaningSqueezingOptions(TypeOfGarbage.PaperGarbage);
-            return new PaperGarbage(name, squeeze.squeezed, squeeze.squeezable);
-        }
-
     }
 }
